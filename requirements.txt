@@ -2,10 +2,14 @@ fastapi
 uvicorn
 pydantic
 python-dotenv
-librosa
 edge-tts
 groq
 python-multipart
 requests
 numpy
 youtube-search-python
+librosa==0.10.1
+numba==0.57.1
+llvmlite==0.40.1
+soundfile
+scipy
