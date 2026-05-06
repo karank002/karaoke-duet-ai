@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+pydantic
+python-dotenv
+librosa
+edge-tts
+groq
+python-multipart
+requests
+numpy
+youtube-search-python

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karaoke AI - Virtual Karaoke Partner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+    <div class="background-mesh">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="glass-panel">
+            <div class="logo">
+                <i data-feather="mic"></i>
+                <h1>Karaoke AI</h1>
+            </div>
+
+            <div class="status-indicator">
+                <button id="favorites-btn" class="btn-favorites" title="My Playlist">
+                    <i data-feather="list"></i>
+                    <span>Playlist</span>
+                </button>
+                <span class="dot connected"></span>
+                <span>Ready to Sing</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Chat Interface -->
+            <section class="chat-section glass-panel">
+                <div class="chat-history" id="chat-history">
+                    <div class="message ai">
+                        <div class="avatar"><i data-feather="music"></i></div>
+                        <div class="bubble">Hi! I'm Karaoke AI, your virtual karaoke partner. What song should we sing today?</div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <div class="chat-input-wrapper">
+                        <div id="search-history-dropdown" class="search-history-dropdown"></div>
+                        <input type="text" id="chat-input" placeholder="Type a message or song name..." autocomplete="off">
+                    </div>
+                    <button id="send-btn" class="btn-primary"><i data-feather="send"></i></button>
+                </div>
+            </section>
+
+            <!-- Karaoke Player -->
+            <section class="karaoke-section glass-panel hidden" id="karaoke-section">
+                <div class="song-info">
+                    <div class="title-row">
+                        <h2 id="song-title">Bohemian Rhapsody</h2>
+                        <button id="save-song-btn" class="btn-save" title="Save Song">
+                            <i data-feather="heart"></i>
+                        </button>
+                    </div>
+                    <p id="song-artist">Queen</p>
+                </div>
+                
+                <!-- Background Tune Selector -->
+                <div class="tune-selector">
+                    <span class="tune-label">🎵</span>
+                    <button class="tune-btn active" data-genre="off">Off</button>
+                    <button class="tune-btn" data-genre="bass">Bass</button>
+                    <button class="tune-btn" data-genre="rock">Rock</button>
+                    <button class="tune-btn" data-genre="pop">Pop</button>
+                    <button class="tune-btn" data-genre="jazz">Jazz</button>
+                    <button class="tune-btn" data-genre="electronic">Electronic</button>
+                    <button class="tune-btn" data-genre="chill">Chill</button>
+                    <input type="range" id="tune-volume" class="volume-slider" min="0" max="1" step="0.05" value="0.45">
+                    <button id="mute-btn" class="btn-mute" title="Pause/Resume"><i data-feather="volume-2"></i></button>
+                </div>
+
+                <div class="lyrics-display" id="lyrics-display">
+                    <!-- Lyrics will be injected here -->
+                </div>
+
+                <div class="controls">
+                    <div class="turn-indicator" id="turn-indicator">
+                        <span class="badge ai-turn">AI's Turn</span>
+                    </div>
+                    <button id="record-btn" class="btn-record"><i data-feather="mic"></i> Sing Your Part</button>
+
+                    <!-- Accuracy Panel -->
+                    <div class="accuracy-panel" id="accuracy-panel">
+                        <div class="accuracy-top">
+                            <!-- Circular Score Ring -->
+                            <div class="score-ring-wrap">
+                                <svg class="score-ring" viewBox="0 0 100 100">
+                                    <circle class="ring-bg" cx="50" cy="50" r="42"/>
+                                    <circle class="ring-fill" id="ring-fill" cx="50" cy="50" r="42"/>
+                                </svg>
+                                <div class="score-center">
+                                    <span class="score-big" id="accuracy-value">--</span>
+                                    <span class="score-pct">%</span>
+                                </div>
+                            </div>
+                            <!-- Right side info -->
+                            <div class="accuracy-right">
+                                <div class="grade-badge" id="grade-badge">🎤 Sing!</div>
+                                <div class="accuracy-rating" id="accuracy-rating">Waiting for your voice...</div>
+                                <div class="accuracy-avg" id="accuracy-avg"></div>
+                                <!-- Mini metrics -->
+                                <div class="mini-metrics">
+                                    <div class="metric-row">
+                                        <span class="metric-name">Pitch</span>
+                                        <div class="metric-bar-track"><div class="metric-bar-fill" id="pitch-bar"></div></div>
+                                    </div>
+                                    <div class="metric-row">
+                                        <span class="metric-name">Timing</span>
+                                        <div class="metric-bar-track"><div class="metric-bar-fill" id="timing-bar"></div></div>
+                                    </div>
+                                    <div class="metric-row">
+                                        <span class="metric-name">Clarity</span>
+                                        <div class="metric-bar-track"><div class="metric-bar-fill" id="clarity-bar"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Score History Bars -->
+                        <div class="score-history" id="score-history"></div>
+                    </div>
+                </div>
+            </section>
+
+
+        </main>
+
+        <!-- Saved Songs Sidebar -->
+        <aside id="saved-songs-sidebar" class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <h3><i data-feather="list"></i> My Playlist</h3>
+                <div class="header-actions">
+                    <button id="clear-favorites-btn" class="clear-history-btn">Clear</button>
+                    <button id="close-sidebar-btn" class="btn-close"><i data-feather="x"></i></button>
+                </div>
+            </div>
+            <div id="saved-songs-list" class="saved-songs-list">
+                <div class="empty-state">
+                    <i data-feather="music"></i>
+                    <p>No saved songs yet.</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
